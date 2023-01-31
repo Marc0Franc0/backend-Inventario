@@ -23,5 +23,5 @@ public interface CarritoService {
 
    public  Collection<Producto> getProductosDelCarrito(Long id);
 
-
+   public  String agregarProductoAlCarrito(Long id, Long idproducto);
 }

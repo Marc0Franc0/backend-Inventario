@@ -1,16 +1,24 @@
 package com.backendcarritoDeComprasApp.backend.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.backendcarritoDeComprasApp.backend.model.Carrito;
 import com.backendcarritoDeComprasApp.backend.model.Producto;
 import com.backendcarritoDeComprasApp.backend.repository.CarritoRepository;
+import com.backendcarritoDeComprasApp.backend.repository.ProductoRepository;
 
 @Service
 public class CarritoServiceImpl implements CarritoService {
     @Autowired
     CarritoRepository carritoRepository;
+    @Autowired
+    ProductoRepository productoRepository;
 
     @Override
     public Collection<Carrito> getAllCarritos() {
@@ -99,17 +107,43 @@ public class CarritoServiceImpl implements CarritoService {
 
     @Override
     public Collection<Producto> getProductosDelCarrito(Long id) {
-        Carrito carrito =  carritoRepository.findById(id).orElseThrow();
-        //Producto productoVacio = new Producto();
+        Carrito carrito = carritoRepository.findById(id).orElseThrow();
+        // Producto productoVacio = new Producto();
 
         if (carrito != null) {
 
-           return carrito.getProductos();
-           
+            return carrito.getProductos();
+
         } else {
             return null;
         }
         // return productos;
     }
 
+    @Override
+    public String agregarProductoAlCarrito(Long id, Long idproducto) {
+        String rta = "";
+
+        if (carritoRepository.existsById(id) && productoRepository.existsById(idproducto)) {
+
+            Carrito carrito = carritoRepository.findById(id).orElseThrow();
+            Producto producto = productoRepository.findById(idproducto).orElseThrow();
+            Collection<Producto> productosCarrito = carrito.getProductos();
+
+        
+            productosCarrito.add(producto);
+
+            carritoRepository.save(carrito);
+
+            rta = "Producto agregado al carrito correctamente";
+
+        } else {
+
+            rta = "No se pudo agregar el producto al carrito";
+        }
+
+        return rta;
+    }
+
+  
 }

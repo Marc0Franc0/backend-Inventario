@@ -26,16 +26,17 @@ import jakarta.persistence.JoinColumn;
 public class Producto {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id_producto")
+  @Column(name = "id_producto",unique = false)
   private Long id;
 
   private String nombre;
 
   private String imagen_url;
-
+ 
   private double cantidad_en_stock;
 
   private double precio;
+
   /*
    * Los tipos de cascada elegidos para la relacion de las entidades son para que
    * los datos persistan y se actualicen
@@ -44,14 +45,15 @@ public class Producto {
   @JsonBackReference
 
   /*
-   * COn la anotacion jointable se indica el nombre de la tabla intermediaria entre ambas entidades.
-   * La anotacion join column inidica el nombre de una de sus columnas y a la columna que hace referencia
+   * COn la anotacion jointable se indica el nombre de la tabla intermediaria
+   * entre ambas entidades.
+   * La anotacion join column inidica el nombre de una de sus columnas y a la
+   * columna que hace referencia
    */
   @JoinTable(name = "carritos_productos", joinColumns = {
       @JoinColumn(name = "producto_id", referencedColumnName = "id_producto") }, inverseJoinColumns = {
-          @JoinColumn(name = "carrito_id", referencedColumnName = "id_carrito") })
-
+          @JoinColumn(name = "carrito_id", referencedColumnName = "id_carrito")
+      })
   Set<Carrito> carritos = new HashSet<>();
- 
 
 }

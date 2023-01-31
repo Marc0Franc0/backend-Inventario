@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.backendcarritoDeComprasApp.backend.model.Carrito;
 import com.backendcarritoDeComprasApp.backend.model.Producto;
@@ -36,8 +35,15 @@ public ResponseEntity<Collection<Carrito>> getAllCarritos( ) {
 
 @GetMapping("/{id}/productos")
 public ResponseEntity<Collection<Producto>> getProductosDelCarrito(@PathVariable Long id){
-
   return new ResponseEntity<>(carritoService.getProductosDelCarrito(id), HttpStatus.OK);
+}
+
+@PostMapping("/{id}/{idproducto}")
+public ResponseEntity<Producto> agregarProductoAlCarrito(@PathVariable Long id, @PathVariable Long idproducto){
+
+
+ return new ResponseEntity(carritoService.agregarProductoAlCarrito(id, idproducto),HttpStatus.OK);
+
 }
 
   
@@ -75,6 +81,8 @@ ResponseEntity returnMethod= null;
 
 
 }
+
+
 
 
 @DeleteMapping("/eliminarcarrito/{id}")

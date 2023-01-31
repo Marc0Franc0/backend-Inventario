@@ -23,26 +23,31 @@ import lombok.Setter;
 @Setter
 public class Carrito {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_carrito")
-    private Long id;
+  @Id
 
-    /*
-     * Los tipos de cascada elegidos para la relacion de las entidades son para que
-     * los datos persistan y se actualicen
-     */
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JsonBackReference
-      /*
-   * COn la anotacion jointable se indica el nombre de la tabla intermediaria entre ambas entidades.
-   * La anotacion join column inidica el nombre de una de sus columnas y a la columna que hace referencia
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_carrito")
+  private Long id;
+
+  /*
+   * Los tipos de cascada elegidos para la relacion de las entidades son para que
+   * los datos persistan y se actualicen
    */
-    @JoinTable(name = "carritos_productos", joinColumns = {
-            @JoinColumn(name = "carrito_id", referencedColumnName = "id_carrito") }, inverseJoinColumns = {
-                    @JoinColumn(name = "producto_id", referencedColumnName = "id_producto") })
+  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+  @JsonBackReference
+  /*
+   * COn la anotacion jointable se indica el nombre de la tabla intermediaria
+   * entre ambas entidades.
+   * La anotacion join column inidica el nombre de una de sus columnas y a la
+   * columna que hace referencia
+   */
+  @JoinTable(name = "carritos_productos", joinColumns = {
+      @JoinColumn(name = "carrito_id", referencedColumnName = "id_carrito"), }, inverseJoinColumns = {
+          @JoinColumn(name = "producto_id", referencedColumnName = "id_producto"),
+      })
 
-    Set<Producto> productos = new HashSet<>();
+  Set<Producto> productos = new HashSet<>();
 
-    private double total;
+  private double total;
+
 }
