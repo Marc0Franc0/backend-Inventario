@@ -1,38 +1,57 @@
 package com.backendcarritoDeComprasApp.backend.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
+import java.util.HashSet;
+import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
+import jakarta.persistence.JoinColumn;
 
 @Entity
-@Table(name = "productos")
-@Data
+@Table(name = "productos", uniqueConstraints = @UniqueConstraint(columnNames = "nombre"))
+@Getter
+@Setter
+
 public class Producto {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_producto")
   private Long id;
 
-  // private String caracGenerales;
   private String nombre;
 
   private String imagen_url;
-  
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-private Categoria categoria;
 
-  private boolean stock;
+  private double cantidad_en_stock;
 
   private double precio;
+  /*
+   * Los tipos de cascada elegidos para la relacion de las entidades son para que
+   * los datos persistan y se actualicen
+   */
+  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+  @JsonBackReference
+
+  /*
+   * COn la anotacion jointable se indica el nombre de la tabla intermediaria entre ambas entidades.
+   * La anotacion join column inidica el nombre de una de sus columnas y a la columna que hace referencia
+   */
+  @JoinTable(name = "carritos_productos", joinColumns = {
+      @JoinColumn(name = "producto_id", referencedColumnName = "id_producto") }, inverseJoinColumns = {
+          @JoinColumn(name = "carrito_id", referencedColumnName = "id_carrito") })
+
+  Set<Carrito> carritos = new HashSet<>();
+ 
 
 }

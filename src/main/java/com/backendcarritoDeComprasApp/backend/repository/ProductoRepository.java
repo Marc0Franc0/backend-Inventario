@@ -1,12 +1,14 @@
 package com.backendcarritoDeComprasApp.backend.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Collection;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.backendcarritoDeComprasApp.backend.model.Producto;
 
 
 @Repository
-public  interface ProductoRepository extends JpaRepository<Producto,Long>{
-    
+public  interface ProductoRepository extends CrudRepository<Producto,Long>{
+    boolean existsById(Long id);
+    Collection <Producto> findAll();
 }

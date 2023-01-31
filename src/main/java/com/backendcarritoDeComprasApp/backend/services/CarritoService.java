@@ -1,17 +1,27 @@
 package com.backendcarritoDeComprasApp.backend.services;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
+import java.util.Collection;
 import com.backendcarritoDeComprasApp.backend.model.Carrito;
+import com.backendcarritoDeComprasApp.backend.model.Producto;
 
 
 
 
 public interface CarritoService {
-    
-    Carrito addCarrito(Carrito carrito);
 
-    List<String> addProductos();
-    double  calcularTotal();
+   public Collection<Carrito> getAllCarritos();
+
+ /*   public List<Carrito> getAllCarritos(Pageable pageable); */
+
+    public Carrito agregarCarrito(Carrito datosIngresados);
+
+    public String editarCarrito(Long id, Carrito datosIngresados);
+
+    public String eliminarCarrito(Long id);
+
+    public boolean compararCarritos(Carrito datosAlmacenados,Carrito datosModificados);
+
+   public  Collection<Producto> getProductosDelCarrito(Long id);
+
+
 }
