@@ -1,11 +1,6 @@
 package com.backendcarritoDeComprasApp.backend.services;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.backendcarritoDeComprasApp.backend.model.Carrito;

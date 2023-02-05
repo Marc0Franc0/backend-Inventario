@@ -1,12 +1,13 @@
 package com.backendcarritoDeComprasApp.backend.model;
 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -20,17 +21,11 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
        private Long id;
 
-
-   /*  @Getter
-    @Setter
-    boolean admin;*/
-
     private String nombre;
-
 
     private String apellido;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Carrito carrito;
-
+    @ManyToOne(optional=false,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Carrito carrito_id;
+  
 }

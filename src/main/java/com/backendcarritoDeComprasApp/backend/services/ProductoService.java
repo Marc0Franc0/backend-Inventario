@@ -6,7 +6,7 @@ import com.backendcarritoDeComprasApp.backend.model.Producto;
 
 public interface ProductoService {
     
-    public Producto agregarProducto(Producto datosIngresadors);
+    public String agregarProducto(Producto datosIngresadors);
 
     public Collection<Producto> getAllProducts();
 

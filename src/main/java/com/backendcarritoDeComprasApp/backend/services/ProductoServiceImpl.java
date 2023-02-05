@@ -17,21 +17,20 @@ public class ProductoServiceImpl implements ProductoService {
      * recibiendo como parametro los atributos de un producto
      */
     @Override
-    public Producto agregarProducto(Producto datosIngresados) {
+    public String agregarProducto(Producto datosIngresados) {
         Producto datosNuevos = new Producto();
-
         datosNuevos.setImagen_url(datosIngresados.getImagen_url());
         datosNuevos.setNombre(datosIngresados.getNombre());
         datosNuevos.setPrecio(datosIngresados.getPrecio());
         datosNuevos.setCantidad_en_stock(datosIngresados.getCantidad_en_stock());
-
-        return repository.save(datosNuevos);
+        repository.save(datosNuevos);
+        return "Producto agregado correctamente";
     }
 
     @Override
     public Collection<Producto> getAllProducts() {
-      
-        return   repository.findAll();
+
+        return repository.findAll();
     }
 
     @Override
@@ -59,7 +58,7 @@ public class ProductoServiceImpl implements ProductoService {
 
                 datosModificados.setId(id);
                 datosModificados.setNombre(datosIngresados.getNombre());
-               // datosModificados.setCategoria(datosIngresados.getCategoria());
+                // datosModificados.setCategoria(datosIngresados.getCategoria());
                 datosModificados.setImagen_url(datosIngresados.getImagen_url());
                 datosModificados.setCantidad_en_stock(datosIngresados.getCantidad_en_stock());
                 datosModificados.setPrecio(datosIngresados.getPrecio());
@@ -79,18 +78,17 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public boolean compararProductos(Producto datosAlmacenados, Producto datosIngresados) {
-boolean rta=false;
+        boolean rta = false;
         if (datosAlmacenados.getImagen_url().equals(datosIngresados.getImagen_url())
                 && datosAlmacenados.getCantidad_en_stock() == datosIngresados.getCantidad_en_stock()
-                &&   datosAlmacenados.getPrecio() == datosIngresados.getPrecio() 
-               // && datosAlmacenados.getCategoria().equals(datosIngresados.getCategoria())
-                && datosAlmacenados.getNombre().equals(datosIngresados.getNombre())
-                )
+                && datosAlmacenados.getPrecio() == datosIngresados.getPrecio()
+                // && datosAlmacenados.getCategoria().equals(datosIngresados.getCategoria())
+                && datosAlmacenados.getNombre().equals(datosIngresados.getNombre()))
 
         {
-            rta=true;
-        }else{
-            rta=false;
+            rta = true;
+        } else {
+            rta = false;
         }
 
         return rta;
@@ -98,11 +96,11 @@ boolean rta=false;
 
     @Override
     public String eliminarProducto(Long id) {
-       String  rta = "";
-        if(repository.existsById(id)){
+        String rta = "";
+        if (repository.existsById(id)) {
             rta = "Producto elminado correctamente";
-repository.deleteById(id);
-        }else{
+            repository.deleteById(id);
+        } else {
 
             rta = "El producto a eliminar no existe";
         }

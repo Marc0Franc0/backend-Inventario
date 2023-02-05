@@ -11,8 +11,6 @@ public interface CarritoService {
 
    public Collection<Carrito> getAllCarritos();
 
- /*   public List<Carrito> getAllCarritos(Pageable pageable); */
-
     public Carrito agregarCarrito(Carrito datosIngresados);
 
     public String editarCarrito(Long id, Carrito datosIngresados);

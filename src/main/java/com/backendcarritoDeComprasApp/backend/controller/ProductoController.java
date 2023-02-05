@@ -45,10 +45,11 @@ public ResponseEntity<Collection<Producto>> getAllCarritos() {
      */
     @PostMapping("/agregarnuevo")
 
-    public ResponseEntity<Producto> agregarProducto(@RequestBody Producto datosIngresados) {
-
-        productoService.agregarProducto(datosIngresados);
-        return new ResponseEntity("Producto agregado correctamente", HttpStatus.OK);
+    public ResponseEntity<String> agregarProducto(@RequestBody Producto datosIngresados) {
+      ResponseEntity<String> returnMethod= null;
+      String rta=   productoService.agregarProducto(datosIngresados);
+     returnMethod = new ResponseEntity<>(rta, HttpStatus.CREATED);
+        return returnMethod;
     }
 
     /*

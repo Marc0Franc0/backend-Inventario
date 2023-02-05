@@ -3,6 +3,8 @@ package com.backendcarritoDeComprasApp.backend.model;
 import java.util.HashSet;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
@@ -29,12 +32,17 @@ public class Producto {
   @Column(name = "id_producto",unique = false)
   private Long id;
 
+  @NonNull
+  @Column(length = 29)
   private String nombre;
 
+  @NonNull
   private String imagen_url;
- 
+
+  @NonNull
   private double cantidad_en_stock;
 
+  
   private double precio;
 
   /*
@@ -56,4 +64,11 @@ public class Producto {
       })
   Set<Carrito> carritos = new HashSet<>();
 
+/*   @ManyToOne
+  @JoinColumn(name="categoria_id", nullable=false)
+  private Categoria categoria_id;
+ */
+
+
+  
 }
