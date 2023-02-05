@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.backendcarritoDeComprasApp.backend.model.Categoria;
-import com.backendcarritoDeComprasApp.backend.model.Producto;
 import com.backendcarritoDeComprasApp.backend.services.CategoriaService;
 
 @RestController
@@ -24,30 +23,30 @@ public class CategoriaController {
     CategoriaService categoriaService;
 
     @GetMapping("/obtenertodas")
-    public ResponseEntity<Categoria> obtenerTodos() {
+    public ResponseEntity<List<Categoria>> obtenerTodos() {
         List<Categoria> listaCategorias = categoriaService.getAllCategorias();
 
-        return new ResponseEntity(listaCategorias, HttpStatus.OK);
+        return new ResponseEntity<>(listaCategorias, HttpStatus.OK);
     }
 
     @GetMapping("/obtenercategoria")
     public ResponseEntity<Categoria> obtenerCategoria(@RequestParam String name) {
        Categoria categoria = categoriaService.getCategoria(name);
 
-        return new ResponseEntity(categoria, HttpStatus.OK);
+        return new ResponseEntity<Categoria>(categoria, HttpStatus.OK);
     }
 
     @PostMapping("/agregarnueva")
-    public ResponseEntity<Categoria> agregarProducto(@RequestBody Categoria datosIngresados) {
+    public ResponseEntity<String> agregarProducto(@RequestBody Categoria datosIngresados) {
 
         categoriaService.agregarCategoria(datosIngresados);
-        return new ResponseEntity("Categoría agregada correctamente", HttpStatus.OK);
+        return new ResponseEntity<>("Categoría agregada correctamente", HttpStatus.OK);
     }
 
     @PutMapping("/editarexistente/{id}")
-    public ResponseEntity<Categoria> editarProducto(@RequestBody Categoria datosIngresados, @PathVariable Long id) {
+    public ResponseEntity<String> editarProducto(@RequestBody Categoria datosIngresados, @PathVariable Long id) {
 
-        ResponseEntity returnMethod = null;
+        ResponseEntity<String> returnMethod = null;
 
         String rta = categoriaService.editarCategoria(id, datosIngresados);
 
@@ -72,9 +71,9 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/eliminarcategoria/{id}")
-    public ResponseEntity<Categoria> eliminarCategoria(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarCategoria(@PathVariable Long id) {
 
-        ResponseEntity returnMethod = null;
+        ResponseEntity<String> returnMethod = null;
 
         String rta = categoriaService.eliminarCategoria(id);
 
@@ -94,9 +93,9 @@ public class CategoriaController {
     }
 
     @PostMapping("/{id}/{idproducto}")
-    public ResponseEntity<Categoria> agregarProductoACategoria(@PathVariable Long id, @PathVariable Long idproducto) {
+    public ResponseEntity<String> agregarProductoACategoria(@PathVariable Long id, @PathVariable Long idproducto) {
 
-        return new ResponseEntity(categoriaService.agregarProductoACategoria(id, idproducto), HttpStatus.OK);
+        return new ResponseEntity<String>(categoriaService.agregarProductoACategoria(id, idproducto), HttpStatus.OK);
 
     }
 }

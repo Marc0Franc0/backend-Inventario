@@ -66,9 +66,9 @@ public ResponseEntity<Collection<Producto>> getAllCarritos() {
      */
     @PutMapping("/editarexistente/{id}")
     
-    public ResponseEntity<Producto> editarProducto(@RequestBody Producto productoCargado, @PathVariable Long id) {
+    public ResponseEntity<String> editarProducto(@RequestBody Producto productoCargado, @PathVariable Long id) {
  
-ResponseEntity returnMethod= null;
+ResponseEntity<String> returnMethod= null;
 
       String rta=   productoService.editarProducto(id,productoCargado);
 
@@ -86,9 +86,9 @@ ResponseEntity returnMethod= null;
         return returnMethod;
     }
     @DeleteMapping("/eliminarproducto/{id}")
-    public ResponseEntity<Producto> eliminarProducto(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarProducto(@PathVariable Long id) {
  
-        ResponseEntity returnMethod= null;
+        ResponseEntity<String> returnMethod= null;
         
               String rta=   productoService.eliminarProducto(id);
         

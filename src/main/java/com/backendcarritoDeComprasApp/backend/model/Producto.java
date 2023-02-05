@@ -14,7 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
@@ -49,8 +48,8 @@ public class Producto {
    * Los tipos de cascada elegidos para la relacion de las entidades son para que
    * los datos persistan y se actualicen
    */
-  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-  @JsonBackReference
+ /*  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+  @JsonBackReference */
 
   /*
    * COn la anotacion jointable se indica el nombre de la tabla intermediaria
@@ -58,11 +57,11 @@ public class Producto {
    * La anotacion join column inidica el nombre de una de sus columnas y a la
    * columna que hace referencia
    */
-  @JoinTable(name = "carritos_productos", joinColumns = {
+/*   @JoinTable(name = "carritos_productos", joinColumns = {
       @JoinColumn(name = "producto_id", referencedColumnName = "id_producto") }, inverseJoinColumns = {
           @JoinColumn(name = "carrito_id", referencedColumnName = "id_carrito")
       })
-  Set<Carrito> carritos = new HashSet<>();
+  Set<Carrito> carritos = new HashSet<>(); */
 
 /*   @ManyToOne
   @JoinColumn(name="categoria_id", nullable=false)
