@@ -6,11 +6,11 @@ import com.backendcarritoDeComprasApp.backend.model.Producto;
 
 public interface ProductoService {
     
-    public String agregarProducto(Producto datosIngresadors);
+    public String agregarProducto(Producto datosIngresadors, String nombrecategoria );
 
     public Collection<Producto> getAllProducts();
 
-    public String editarProducto(Long id,Producto datosIngresadors);
+    public String editarProducto(Long id,Producto datosIngresadors,String nombrecategoria);
 
     public String eliminarProducto(Long id);
  

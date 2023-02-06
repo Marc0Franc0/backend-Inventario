@@ -92,10 +92,11 @@ public class CategoriaController {
         return returnMethod;
     }
 
-    @PostMapping("/{id}/{idproducto}")
-    public ResponseEntity<String> agregarProductoACategoria(@PathVariable Long id, @PathVariable Long idproducto) {
+  /*   @PostMapping("/{id}/{idproducto}")
+    public ResponseEntity<String> agregarProductoACategoria(@RequestParam String nombrecategoria, @PathVariable Long idproducto) {
 
-        return new ResponseEntity<String>(categoriaService.agregarProductoACategoria(id, idproducto), HttpStatus.OK);
 
-    }
+        return new ResponseEntity<String>(categoriaService.agregarProductoACategoria(nombrecategoria, idproducto), HttpStatus.OK);
+
+    } */
 }

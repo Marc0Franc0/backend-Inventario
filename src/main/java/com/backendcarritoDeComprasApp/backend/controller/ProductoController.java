@@ -43,11 +43,10 @@ public ResponseEntity<Collection<Producto>> getAllCarritos() {
       "precio": 0
       }
      */
-    @PostMapping("/agregarnuevo")
-
-    public ResponseEntity<String> agregarProducto(@RequestBody Producto datosIngresados) {
+    @PostMapping("/agregarnuevo/{nombrecategoria}")
+    public ResponseEntity<String> agregarProducto(@RequestBody Producto datosIngresados,@PathVariable String nombrecategoria) {
       ResponseEntity<String> returnMethod= null;
-      String rta=   productoService.agregarProducto(datosIngresados);
+      String rta=   productoService.agregarProducto(datosIngresados,nombrecategoria);
      returnMethod = new ResponseEntity<>(rta, HttpStatus.CREATED);
         return returnMethod;
     }
@@ -64,13 +63,13 @@ public ResponseEntity<Collection<Producto>> getAllCarritos() {
       "precio": 0
       }
      */
-    @PutMapping("/editarexistente/{id}")
+    @PutMapping("/editarexistente/{id}/{nombrecategoria}")
     
-    public ResponseEntity<String> editarProducto(@RequestBody Producto productoCargado, @PathVariable Long id) {
+    public ResponseEntity<String> editarProducto(@RequestBody Producto productoCargado, @PathVariable Long id,@PathVariable String nombrecategoria) {
  
 ResponseEntity<String> returnMethod= null;
 
-      String rta=   productoService.editarProducto(id,productoCargado);
+      String rta=   productoService.editarProducto(id,productoCargado,nombrecategoria);
 
       switch(rta){
 

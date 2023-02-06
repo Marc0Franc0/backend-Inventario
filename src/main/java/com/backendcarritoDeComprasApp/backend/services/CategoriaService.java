@@ -14,7 +14,7 @@ public interface CategoriaService {
 
     public String eliminarCategoria(Long id);
 
-    public  String agregarProductoACategoria(Long id, Long idproducto);
+ /*    public  String agregarProductoACategoria(String nombrecategoria, Long idproducto); */
 
     public Categoria getCategoria(String name);
 }

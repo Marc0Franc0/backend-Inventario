@@ -3,6 +3,8 @@ package com.backendcarritoDeComprasApp.backend.services;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.backendcarritoDeComprasApp.backend.model.Categoria;
 import com.backendcarritoDeComprasApp.backend.model.Producto;
 import com.backendcarritoDeComprasApp.backend.repository.ProductoRepository;
 
@@ -11,19 +13,26 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     ProductoRepository repository;
+    @Autowired
+    CategoriaService categoriaService;
 
     /*
      * El método del service de producto permite agregar un nuevo producto,
      * recibiendo como parametro los atributos de un producto
      */
     @Override
-    public String agregarProducto(Producto datosIngresados) {
+    public String agregarProducto(Producto datosIngresados, String nombrecategoria) {
+
+        Categoria categoria_producto = categoriaService.getCategoria(nombrecategoria);
+
         Producto datosNuevos = new Producto();
         datosNuevos.setImagen_url(datosIngresados.getImagen_url());
         datosNuevos.setNombre(datosIngresados.getNombre());
         datosNuevos.setPrecio(datosIngresados.getPrecio());
         datosNuevos.setCantidad_en_stock(datosIngresados.getCantidad_en_stock());
+        datosNuevos.setCategoria(categoria_producto);
         repository.save(datosNuevos);
+
         return "Producto agregado correctamente";
     }
 
@@ -34,9 +43,11 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public String editarProducto(Long id, Producto datosIngresados) {
+    public String editarProducto(Long id, Producto datosIngresados, String nombrecategoria) {
         Producto datosAlmacenados;
+        Categoria categoria_producto = categoriaService.getCategoria(nombrecategoria);
         String rta;
+
         if (repository.existsById(id) == true) {
             // Si el producto existe se crea un objeto de tipo Producto con los datos del
             // mismo
@@ -62,7 +73,7 @@ public class ProductoServiceImpl implements ProductoService {
                 datosModificados.setImagen_url(datosIngresados.getImagen_url());
                 datosModificados.setCantidad_en_stock(datosIngresados.getCantidad_en_stock());
                 datosModificados.setPrecio(datosIngresados.getPrecio());
-
+                datosModificados.setCategoria(categoria_producto);
                 repository.save(datosModificados);
 
                 rta = "Producto modificado correctamente";
@@ -83,7 +94,8 @@ public class ProductoServiceImpl implements ProductoService {
                 && datosAlmacenados.getCantidad_en_stock() == datosIngresados.getCantidad_en_stock()
                 && datosAlmacenados.getPrecio() == datosIngresados.getPrecio()
                 // && datosAlmacenados.getCategoria().equals(datosIngresados.getCategoria())
-                && datosAlmacenados.getNombre().equals(datosIngresados.getNombre()))
+                && datosAlmacenados.getNombre().equals(datosIngresados.getNombre())
+                && datosAlmacenados.getCategoria().equals(datosIngresados.getCategoria()))
 
         {
             rta = true;

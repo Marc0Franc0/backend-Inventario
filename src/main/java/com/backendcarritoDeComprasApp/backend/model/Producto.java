@@ -1,31 +1,24 @@
 package com.backendcarritoDeComprasApp.backend.model;
 
-import java.util.HashSet;
-import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import lombok.Getter;
-import lombok.Setter;
-import jakarta.persistence.JoinColumn;
+import lombok.Data;
 
 @Entity
 @Table(name = "productos", uniqueConstraints = @UniqueConstraint(columnNames = "nombre"))
-@Getter
-@Setter
-
+@Data
 public class Producto {
+  
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id_producto",unique = false)
@@ -62,11 +55,11 @@ public class Producto {
           @JoinColumn(name = "carrito_id", referencedColumnName = "id_carrito")
       })
   Set<Carrito> carritos = new HashSet<>(); */
+  @JsonBackReference 
+  @ManyToOne
+  @JoinColumn(name = "fk_categoria", nullable = false, updatable = false)
+  private  Categoria categoria;
 
-/*   @ManyToOne
-  @JoinColumn(name="categoria_id", nullable=false)
-  private Categoria categoria_id;
- */
 
 
   

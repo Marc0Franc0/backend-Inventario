@@ -1,11 +1,9 @@
 package com.backendcarritoDeComprasApp.backend.services;
 
-import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.backendcarritoDeComprasApp.backend.model.Categoria;
-import com.backendcarritoDeComprasApp.backend.model.Producto;
 import com.backendcarritoDeComprasApp.backend.repository.CategoriaRepository;
 import com.backendcarritoDeComprasApp.backend.repository.ProductoRepository;
 
@@ -85,13 +83,15 @@ repository.deleteById(id);
         return rta;
     }
 
-    @Override
-    public String agregarProductoACategoria(Long id, Long idproducto) {
+    /* @Override
+    public String agregarProductoACategoria(String nombrecategoria, Long idproducto) {
         String rta = "";
+        Categoria categ = categ = repository.findByNombre(nombrecategoria);;
 
-        if (repository.existsById(id) && productoRepository.existsById(idproducto)) {
+      
+        if (repository.existsById(categ.getId()) && productoRepository.existsById(idproducto)) {
 
-            Categoria categoria = repository.findById(id).orElseThrow();
+            Categoria categoria = repository.findById(categ.getId()).orElseThrow();
             Producto producto = productoRepository.findById(idproducto).orElseThrow();
             Collection<Producto> productosCarrito = categoria.getProductos();
 
@@ -108,7 +108,7 @@ repository.deleteById(id);
         }
 
         return rta;
-    }
+    } */
 
     @Override
     public Categoria getCategoria(String name) {
