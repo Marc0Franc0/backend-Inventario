@@ -2,7 +2,6 @@ package com.backendcarritoDeComprasApp.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.micrometer.common.lang.NonNull;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,11 +11,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "productos", uniqueConstraints = @UniqueConstraint(columnNames = "nombre"))
-@Data
+
 public class Producto {
   
   @Id
@@ -57,9 +59,8 @@ public class Producto {
   Set<Carrito> carritos = new HashSet<>(); */
   @JsonBackReference 
   @ManyToOne
-  @JoinColumn(name = "fk_categoria", nullable = false, updatable = false)
+  @JoinColumn(name = "fk_categoria", nullable = false, updatable = true)
   private  Categoria categoria;
-
 
 
   

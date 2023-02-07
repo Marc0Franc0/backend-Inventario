@@ -66,7 +66,6 @@ public class ProductoServiceImpl implements ProductoService {
             } else {
 
                 Producto datosModificados = new Producto();
-
                 datosModificados.setId(id);
                 datosModificados.setNombre(datosIngresados.getNombre());
                 // datosModificados.setCategoria(datosIngresados.getCategoria());
@@ -74,6 +73,7 @@ public class ProductoServiceImpl implements ProductoService {
                 datosModificados.setCantidad_en_stock(datosIngresados.getCantidad_en_stock());
                 datosModificados.setPrecio(datosIngresados.getPrecio());
                 datosModificados.setCategoria(categoria_producto);
+             // categoria_producto.addProducto(datosAlmacenados);
                 repository.save(datosModificados);
 
                 rta = "Producto modificado correctamente";
@@ -111,6 +111,7 @@ public class ProductoServiceImpl implements ProductoService {
         String rta = "";
         if (repository.existsById(id)) {
             rta = "Producto elminado correctamente";
+        
             repository.deleteById(id);
         } else {
 
