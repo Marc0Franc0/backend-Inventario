@@ -1,0 +1,12 @@
+com\backendcarritoDeComprasApp\backend\controller\WebConfiguration.class
+com\backendcarritoDeComprasApp\backend\Main.class
+com\backendcarritoDeComprasApp\backend\services\ProductoServiceImpl.class
+com\backendcarritoDeComprasApp\backend\controller\CategoriaController.class
+com\backendcarritoDeComprasApp\backend\model\Categoria.class
+com\backendcarritoDeComprasApp\backend\services\CategoriaService.class
+com\backendcarritoDeComprasApp\backend\model\Producto.class
+com\backendcarritoDeComprasApp\backend\services\CategoriaServiceImpl.class
+com\backendcarritoDeComprasApp\backend\services\ProductoService.class
+com\backendcarritoDeComprasApp\backend\repository\ProductoRepository.class
+com\backendcarritoDeComprasApp\backend\repository\CategoriaRepository.class
+com\backendcarritoDeComprasApp\backend\controller\ProductoController.class
