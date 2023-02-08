@@ -2,6 +2,7 @@ package com.backendcarritoDeComprasApp.backend.controller;
 
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -12,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 // Importa las configuraciones de MVC
 @EnableWebMvc
-
+@CrossOrigin(origins = "http://localhost:4200")
 /*
  * Esta clase es necesaria para las restricciones del CORS 
  * (intercambio de recursos de origen cruzado). En palabras simples 
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * de múltiples dominios en navegadores que generalmente tienen la 
  * misma política de seguridad de origen. 
  */
+
 public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
