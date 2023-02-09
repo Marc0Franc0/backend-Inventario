@@ -1,6 +1,6 @@
 package com.backendcarritoDeComprasApp.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,32 +36,18 @@ public class Producto {
   @NonNull
   private double cantidad_en_stock;
 
-  
+  @NonNull
   private double precio;
 
-  /*
-   * Los tipos de cascada elegidos para la relacion de las entidades son para que
-   * los datos persistan y se actualicen
-   */
- /*  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-  @JsonBackReference */
-
-  /*
-   * COn la anotacion jointable se indica el nombre de la tabla intermediaria
-   * entre ambas entidades.
-   * La anotacion join column inidica el nombre de una de sus columnas y a la
-   * columna que hace referencia
-   */
-/*   @JoinTable(name = "carritos_productos", joinColumns = {
-      @JoinColumn(name = "producto_id", referencedColumnName = "id_producto") }, inverseJoinColumns = {
-          @JoinColumn(name = "carrito_id", referencedColumnName = "id_carrito")
-      })
-  Set<Carrito> carritos = new HashSet<>(); */
-  @JsonBackReference 
+  @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "fk_categoria", nullable = false, updatable = true)
   private  Categoria categoria;
 
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "fk_marca", nullable = false, updatable = true)
+  private  Marca marca;
 
   
 }
