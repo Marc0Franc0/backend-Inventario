@@ -27,7 +27,11 @@ public class ProductoController {
     /*
      * Se obtiene una lista de todos los productos
      */
-  
+    @GetMapping("/")
+    public ResponseEntity<> test() {
+
+      return new ResponseEntity<>( HttpStatus.OK);
+    }
 @GetMapping("/obtenertodos")
 public ResponseEntity<Collection<Producto>> getAllCarritos() {
 
