@@ -41,12 +41,12 @@ public class Producto {
 
   @JsonIgnore
   @ManyToOne
-  @JoinColumn(name = "fk_categoria", nullable = false, updatable = true)
+  @JoinColumn(name = "fk_categoria", nullable = true, updatable = true)
   private  Categoria categoria;
 
   @JsonIgnore
   @ManyToOne
-  @JoinColumn(name = "fk_marca", nullable = false, updatable = true)
+  @JoinColumn(name = "fk_marca", nullable = true, updatable = true)
   private  Marca marca;
 
   
