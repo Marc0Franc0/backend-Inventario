@@ -16,19 +16,20 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "categorias")
-public class Categoria {
+@Table(name = "marcas")
+public class Marca {
+    
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_marca",unique = false)
+  private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categoria_id")
-    private Long id;
+  @Column(length = 50)
+  @NonNull
+  String nombre;
 
-    @Column(length = 50)
-    String nombre;
-
-    @NonNull
-    @OneToMany(mappedBy  =  "categoria" , cascade  = {CascadeType.ALL})
-    private List<Producto> productos;
-
+  @NonNull
+  //@JsonManagedReference
+  @OneToMany(mappedBy  =  "marca" , cascade  = {CascadeType.ALL})
+  private List<Producto> productos;
 }

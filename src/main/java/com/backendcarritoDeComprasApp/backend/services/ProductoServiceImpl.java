@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.backendcarritoDeComprasApp.backend.model.Categoria;
+import com.backendcarritoDeComprasApp.backend.model.Marca;
 import com.backendcarritoDeComprasApp.backend.model.Producto;
 import com.backendcarritoDeComprasApp.backend.repository.ProductoRepository;
 
@@ -15,22 +16,25 @@ public class ProductoServiceImpl implements ProductoService {
     ProductoRepository repository;
     @Autowired
     CategoriaService categoriaService;
+    @Autowired
+    MarcaService marcaService;
 
     /*
      * El método del service de producto permite agregar un nuevo producto,
      * recibiendo como parametro los atributos de un producto
      */
     @Override
-    public String agregarProducto(Producto datosIngresados, String nombrecategoria) {
+    public String agregarProducto(Producto datosIngresados, String nombrecategoria, String nombremarca) {
 
         Categoria categoria_producto = categoriaService.getCategoria(nombrecategoria);
-
+        Marca marca_producto = marcaService.getMarca(nombremarca);
         Producto datosNuevos = new Producto();
         datosNuevos.setImagen_url(datosIngresados.getImagen_url());
         datosNuevos.setNombre(datosIngresados.getNombre());
         datosNuevos.setPrecio(datosIngresados.getPrecio());
         datosNuevos.setCantidad_en_stock(datosIngresados.getCantidad_en_stock());
         datosNuevos.setCategoria(categoria_producto);
+        datosNuevos.setMarca(marca_producto);
         repository.save(datosNuevos);
 
         return "Producto agregado correctamente";
@@ -73,7 +77,7 @@ public class ProductoServiceImpl implements ProductoService {
                 datosModificados.setCantidad_en_stock(datosIngresados.getCantidad_en_stock());
                 datosModificados.setPrecio(datosIngresados.getPrecio());
                 datosModificados.setCategoria(categoria_producto);
-             // categoria_producto.addProducto(datosAlmacenados);
+                // categoria_producto.addProducto(datosAlmacenados);
                 repository.save(datosModificados);
 
                 rta = "Producto modificado correctamente";
@@ -111,7 +115,7 @@ public class ProductoServiceImpl implements ProductoService {
         String rta = "";
         if (repository.existsById(id)) {
             rta = "Producto elminado correctamente";
-        
+
             repository.deleteById(id);
         } else {
 
