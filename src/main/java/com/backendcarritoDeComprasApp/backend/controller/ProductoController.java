@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.backendcarritoDeComprasApp.backend.model.Producto;
+import com.backendcarritoDeComprasApp.backend.model.ProductoDTO;
 import com.backendcarritoDeComprasApp.backend.services.ProductoService;
 
 @RestController
@@ -49,11 +50,11 @@ public ResponseEntity<Collection<Producto>> getAllCarritos() {
       "precio": 0
       }
      */
-    @PostMapping("/agregarnuevo/{nombrecategoria}/{nombremarca}")
-    public ResponseEntity<String> agregarProducto(@RequestBody Producto datosIngresados,@PathVariable String nombrecategoria
-    ,@PathVariable String nombremarca) {
+    @PostMapping("/agregarnuevo")
+    public ResponseEntity<String> agregarProducto(@RequestBody ProductoDTO datosIngresados) {
+      
       ResponseEntity<String> returnMethod= null;
-      String rta=   productoService.agregarProducto(datosIngresados,nombrecategoria,nombremarca);
+      String rta=   productoService.agregarProducto(datosIngresados);
      returnMethod = new ResponseEntity<>(rta, HttpStatus.CREATED);
         return returnMethod;
     }
@@ -70,13 +71,13 @@ public ResponseEntity<Collection<Producto>> getAllCarritos() {
       "precio": 0
       }
      */
-    @PutMapping("/editarexistente/{id}/{nombrecategoria}")
+    @PutMapping("/editarexistente/{id}")
     
-    public ResponseEntity<String> editarProducto(@RequestBody Producto productoCargado, @PathVariable Long id,@PathVariable String nombrecategoria) {
+    public ResponseEntity<String> editarProducto(@RequestBody ProductoDTO productoCargado, @PathVariable Long id) {
  
 ResponseEntity<String> returnMethod= null;
 
-      String rta=   productoService.editarProducto(id,productoCargado,nombrecategoria);
+      String rta=   productoService.editarProducto(id,productoCargado);
 
       switch(rta){
 

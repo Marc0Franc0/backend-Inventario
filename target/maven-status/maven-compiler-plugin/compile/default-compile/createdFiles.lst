@@ -15,3 +15,4 @@ com\backendcarritoDeComprasApp\backend\services\ProductoService.class
 com\backendcarritoDeComprasApp\backend\repository\ProductoRepository.class
 com\backendcarritoDeComprasApp\backend\repository\CategoriaRepository.class
 com\backendcarritoDeComprasApp\backend\controller\ProductoController.class
+com\backendcarritoDeComprasApp\backend\model\ProductoDTO.class

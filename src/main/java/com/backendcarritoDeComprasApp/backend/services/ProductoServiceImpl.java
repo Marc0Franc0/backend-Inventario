@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.backendcarritoDeComprasApp.backend.model.Categoria;
 import com.backendcarritoDeComprasApp.backend.model.Marca;
 import com.backendcarritoDeComprasApp.backend.model.Producto;
+import com.backendcarritoDeComprasApp.backend.model.ProductoDTO;
 import com.backendcarritoDeComprasApp.backend.repository.ProductoRepository;
 
 @Service
@@ -24,10 +25,10 @@ public class ProductoServiceImpl implements ProductoService {
      * recibiendo como parametro los atributos de un producto
      */
     @Override
-    public String agregarProducto(Producto datosIngresados, String nombrecategoria, String nombremarca) {
+    public String agregarProducto(ProductoDTO datosIngresados) {
 
-        Categoria categoria_producto = categoriaService.getCategoria(nombrecategoria);
-        Marca marca_producto = marcaService.getMarca(nombremarca);
+       Categoria categoria_producto = categoriaService.getCategoria(datosIngresados.getCategoria());
+       Marca marca_producto = marcaService.getMarca(datosIngresados.getMarca());
         Producto datosNuevos = new Producto();
         datosNuevos.setImagen_url(datosIngresados.getImagen_url());
         datosNuevos.setNombre(datosIngresados.getNombre());
@@ -47,9 +48,10 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public String editarProducto(Long id, Producto datosIngresados, String nombrecategoria) {
+    public String editarProducto(Long id, ProductoDTO datosIngresados) {
         Producto datosAlmacenados;
-        Categoria categoria_producto = categoriaService.getCategoria(nombrecategoria);
+        Categoria categoria_producto = categoriaService.getCategoria(datosIngresados.getCategoria());
+        Marca marca_producto = marcaService.getMarca(datosIngresados.getMarca());
         String rta;
 
         if (repository.existsById(id) == true) {
@@ -77,6 +79,7 @@ public class ProductoServiceImpl implements ProductoService {
                 datosModificados.setCantidad_en_stock(datosIngresados.getCantidad_en_stock());
                 datosModificados.setPrecio(datosIngresados.getPrecio());
                 datosModificados.setCategoria(categoria_producto);
+                datosModificados.setMarca(marca_producto);
                 // categoria_producto.addProducto(datosAlmacenados);
                 repository.save(datosModificados);
 
@@ -92,14 +95,15 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public boolean compararProductos(Producto datosAlmacenados, Producto datosIngresados) {
+    public boolean compararProductos(Producto datosAlmacenados, ProductoDTO datosIngresados) {
         boolean rta = false;
         if (datosAlmacenados.getImagen_url().equals(datosIngresados.getImagen_url())
                 && datosAlmacenados.getCantidad_en_stock() == datosIngresados.getCantidad_en_stock()
                 && datosAlmacenados.getPrecio() == datosIngresados.getPrecio()
                 // && datosAlmacenados.getCategoria().equals(datosIngresados.getCategoria())
                 && datosAlmacenados.getNombre().equals(datosIngresados.getNombre())
-                && datosAlmacenados.getCategoria().equals(datosIngresados.getCategoria()))
+                && datosAlmacenados.getCategoria().equals(datosIngresados.getCategoria())
+                && datosAlmacenados.getMarca().equals(datosIngresados.getMarca()))
 
         {
             rta = true;
