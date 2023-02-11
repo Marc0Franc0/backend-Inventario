@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 // Importa las configuraciones de MVC
 @EnableWebMvc
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200","https://frontend-inventarioapp.netlify.app/"})
 /*
  * Esta clase es necesaria para las restricciones del CORS 
  * (intercambio de recursos de origen cruzado). En palabras simples 
@@ -28,7 +28,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-registry.addMapping("/**").allowedMethods("*").allowedOriginPatterns("http://localhost:4200/");
+registry.addMapping("/**").allowedMethods("*").allowedOrigins("http://localhost:4200","https://frontend-inventarioapp.netlify.app/") ;
     }
 
 }

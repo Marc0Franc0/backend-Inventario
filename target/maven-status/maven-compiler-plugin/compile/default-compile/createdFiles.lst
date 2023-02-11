@@ -11,8 +11,8 @@ com\backendcarritoDeComprasApp\backend\controller\MarcaController.class
 com\backendcarritoDeComprasApp\backend\services\CategoriaService.class
 com\backendcarritoDeComprasApp\backend\model\Producto.class
 com\backendcarritoDeComprasApp\backend\services\CategoriaServiceImpl.class
+com\DTO\ProductoDTO.class
 com\backendcarritoDeComprasApp\backend\services\ProductoService.class
 com\backendcarritoDeComprasApp\backend\repository\ProductoRepository.class
 com\backendcarritoDeComprasApp\backend\repository\CategoriaRepository.class
 com\backendcarritoDeComprasApp\backend\controller\ProductoController.class
-com\backendcarritoDeComprasApp\backend\model\ProductoDTO.class

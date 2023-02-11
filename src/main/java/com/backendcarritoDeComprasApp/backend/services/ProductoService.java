@@ -1,8 +1,9 @@
 package com.backendcarritoDeComprasApp.backend.services;
 
 import java.util.Collection;
+
+import com.DTO.ProductoDTO;
 import com.backendcarritoDeComprasApp.backend.model.Producto;
-import com.backendcarritoDeComprasApp.backend.model.ProductoDTO;
 
 
 public interface ProductoService {

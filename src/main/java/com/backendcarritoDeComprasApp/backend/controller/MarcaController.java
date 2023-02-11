@@ -19,7 +19,7 @@ import com.backendcarritoDeComprasApp.backend.model.Marca;
 import com.backendcarritoDeComprasApp.backend.services.MarcaService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200","https://frontend-inventarioapp.netlify.app/"})
 @RequestMapping("/marcas")
 public class MarcaController {
    

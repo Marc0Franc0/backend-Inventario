@@ -4,10 +4,10 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.DTO.ProductoDTO;
 import com.backendcarritoDeComprasApp.backend.model.Categoria;
 import com.backendcarritoDeComprasApp.backend.model.Marca;
 import com.backendcarritoDeComprasApp.backend.model.Producto;
-import com.backendcarritoDeComprasApp.backend.model.ProductoDTO;
 import com.backendcarritoDeComprasApp.backend.repository.ProductoRepository;
 
 @Service

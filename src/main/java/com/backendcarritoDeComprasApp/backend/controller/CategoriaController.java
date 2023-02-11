@@ -18,7 +18,7 @@ import com.backendcarritoDeComprasApp.backend.model.Categoria;
 import com.backendcarritoDeComprasApp.backend.services.CategoriaService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200","https://frontend-inventarioapp.netlify.app/"})
 @RequestMapping("/categorias")
 public class CategoriaController {
     @Autowired
