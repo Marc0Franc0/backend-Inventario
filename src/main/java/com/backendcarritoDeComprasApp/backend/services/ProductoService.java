@@ -2,7 +2,7 @@ package com.backendcarritoDeComprasApp.backend.services;
 
 import java.util.Collection;
 
-import com.backendcarritoDeComprasApp.backend.dto.ProductoDTO;
+import com.DTO.ProductoDTO;
 import com.backendcarritoDeComprasApp.backend.model.Producto;
 
 
