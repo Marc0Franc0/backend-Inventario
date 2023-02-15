@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.DTO.ProductoDTO;
+import com.backendcarritoDeComprasApp.backend.dto.ProductoDTO;
 import com.backendcarritoDeComprasApp.backend.model.Producto;
 import com.backendcarritoDeComprasApp.backend.services.ProductoService;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:4200","https://frontend-inventarioapp.netlify.app/"})
-@RequestMapping("/productos")
+@RequestMapping("api/productos")
 public class ProductoController {
 
     @Autowired
