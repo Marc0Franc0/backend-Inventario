@@ -30,7 +30,13 @@ public class WebConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
         .allowedMethods("*")
-        .allowedOrigins("http://localhost:4200","https://frontend-inventarioapp.netlify.app/","http://localhost:8080");
+        .allowedOrigins("http://localhost:4200","https://frontend-inventarioapp.netlify.app/");
+
+
+        registry.addMapping("/api/v1/auth/authenticate")
+        .allowedMethods("*")
+        .allowedOrigins("http://localhost:4200","https://frontend-inventarioapp.netlify.app/")
+        .exposedHeaders("*");
             }
 
         };
