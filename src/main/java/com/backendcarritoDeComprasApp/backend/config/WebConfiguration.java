@@ -33,7 +33,7 @@ public class WebConfiguration {
         .allowedOrigins("http://localhost:4200","https://frontend-inventarioapp.netlify.app/");
 
 
-        registry.addMapping("/api/v1/auth/authenticate")
+        registry.addMapping("/api/v1/auth/**")
         .allowedMethods("*")
         .allowedOrigins("http://localhost:4200","https://frontend-inventarioapp.netlify.app/")
         .exposedHeaders("*");
