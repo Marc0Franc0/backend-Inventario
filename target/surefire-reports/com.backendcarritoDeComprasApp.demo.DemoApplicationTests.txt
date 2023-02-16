@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.backendcarritoDeComprasApp.demo.DemoApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.474 s - in com.backendcarritoDeComprasApp.demo.DemoApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 20.075 s - in com.backendcarritoDeComprasApp.demo.DemoApplicationTests
