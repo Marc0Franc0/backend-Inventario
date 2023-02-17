@@ -49,8 +49,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public String editarProducto(Long id, ProductoDTO datosIngresados) {
         Producto datosAlmacenados;
-        Categoria categoria_producto = categoriaService.getCategoria(datosIngresados.getCategoria());
-        Marca marca_producto = marcaService.getMarca(datosIngresados.getMarca());
+       
         String rta;
 
         if (repository.existsById(id) == true) {
@@ -69,16 +68,31 @@ public class ProductoServiceImpl implements ProductoService {
                 rta = "Producto no modificado";
 
             } else {
-
-                Producto datosModificados = new Producto();
+              Producto datosModificados = new Producto();
                 datosModificados.setId(id);
                 datosModificados.setNombre(datosIngresados.getNombre());
                 // datosModificados.setCategoria(datosIngresados.getCategoria());
                 datosModificados.setImagen_url(datosIngresados.getImagen_url());
                 datosModificados.setCantidad_en_stock(datosIngresados.getCantidad_en_stock());
                 datosModificados.setPrecio(datosIngresados.getPrecio());
-                datosModificados.setCategoria(categoria_producto);
-                datosModificados.setMarca(marca_producto);
+
+                //Se valida que los datos de categoria o marca que lleguen desde el cliente no sean vacios para setear
+                //De ser asi se les setea la misma categoría o marca
+                if(datosIngresados.getMarca().equals("")){
+              datosModificados.setMarca(datosAlmacenados.getMarca());
+                }else{
+                    Marca marca_producto = marcaService.getMarca(datosIngresados.getMarca());
+
+                    datosModificados.setMarca(marca_producto);
+                }
+                  if(datosIngresados.getCategoria().equals("")){
+datosModificados.setCategoria(datosAlmacenados.getCategoria());
+                  }else{
+                    Categoria categoria_producto = categoriaService.getCategoria(datosIngresados.getCategoria()); 
+                    datosModificados.setCategoria(categoria_producto);
+                  }
+               
+                
                 // categoria_producto.addProducto(datosAlmacenados);
                 repository.save(datosModificados);
 
