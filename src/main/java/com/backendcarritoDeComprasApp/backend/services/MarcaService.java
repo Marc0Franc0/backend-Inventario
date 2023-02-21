@@ -13,6 +13,8 @@ public interface MarcaService {
 
     public String eliminarMarca(Long id);
 
+    public boolean existByNombre(String nombre);
+
  /*    public  String agregarProductoACategoria(String nombrecategoria, Long idproducto); */
 
     public Marca getMarca(String name);

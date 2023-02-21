@@ -17,4 +17,6 @@ public interface ProductoService {
     public String eliminarProducto(Long id);
  
     public boolean compararProductos(Producto datosAlmacenados,ProductoDTO datosModificados);
+
+    public boolean existByNombre(String nombre);
 }

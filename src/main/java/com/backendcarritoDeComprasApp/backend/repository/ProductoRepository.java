@@ -11,4 +11,5 @@ public  interface ProductoRepository extends CrudRepository<Producto,Long>{
     boolean existsById(Long id);
     Collection <Producto> findAll();
     Producto findByNombre(String nombre);
+    boolean existsByNombre(String nombre);
 }

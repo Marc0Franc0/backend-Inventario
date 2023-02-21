@@ -48,7 +48,7 @@ public class CategoriaServiceImpl implements CategoriaService{
              */
 
             if (datosAlmacenados.getNombre().equals(datosIngresados.getNombre())) {
-                rta = "Categoría no modificado";
+                rta = "Categoría no modificada";
 
             } else {
 
@@ -114,5 +114,11 @@ repository.deleteById(id);
     public Categoria getCategoria(String name) {
     
         return  repository.findByNombre(name);
+    }
+
+    @Override
+    public boolean existByNombre(String nombre) {
+        // TODO Auto-generated method stub
+        return repository.existsByNombre(nombre);
     }
 }

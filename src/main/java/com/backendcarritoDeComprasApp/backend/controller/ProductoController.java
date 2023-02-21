@@ -54,11 +54,28 @@ public ResponseEntity<Collection<Producto>> getAllCarritos() {
     @PostMapping("/agregarnuevo")
     public ResponseEntity<String> agregarProducto(@RequestBody ProductoDTO datosIngresados) {
       
-      ResponseEntity<String> returnMethod= null;
-      String rta=   productoService.agregarProducto(datosIngresados);
-     returnMethod = new ResponseEntity<>(rta, HttpStatus.CREATED);
-        return returnMethod;
+   
+      String rta;
+    
+      if(productoService.existByNombre(datosIngresados.getNombre())){
+      // ResponseRta responserta = new ResponseRta("ERROR", "Ya existe un producto con ese nombre");
+      rta = "Ya existe un producto con ese nombre";
+      return new  ResponseEntity<>(rta,HttpStatus.BAD_REQUEST);
+
+      }else if(datosIngresados.getNombre().equals("")){
+       // ResponseRta responserta = new ResponseRta("ERROR", "El nombre del producto no contiene un valor");  
+       rta = "El nombre del producto no contiene un valor";
+        return new  ResponseEntity<>(rta,HttpStatus.BAD_REQUEST);
+      }else{
+
+         rta=   productoService.agregarProducto(datosIngresados); 
+         //ResponseRta responserta = new ResponseRta("OK", "Producto creado correctamente");  
+         rta = "Producto creado correctamente";
+         return new  ResponseEntity<>(rta,HttpStatus.CREATED);
+
+  
     }
+  }
 
     /*
      * Permite modificar un producto existente
@@ -82,12 +99,16 @@ ResponseEntity<String> returnMethod= null;
 
       switch(rta){
 
-        case "Producto no modificado":{ returnMethod = new ResponseEntity<>(rta,HttpStatus.BAD_REQUEST);break;}
-        case "Producto modificado correctamente" : {returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);break;}
+        case "Producto no modificado":{ 
+           returnMethod = new ResponseEntity<>(rta,HttpStatus.BAD_REQUEST);
+           break;
+           }
+        case "Producto modificado correctamente" : { returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
+          break;}
         case "No se encontro un Producto anteriormente por lo que no se puede modficar" : {
 
-            returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
-            break;
+           returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
+          break;
         }
       }
 

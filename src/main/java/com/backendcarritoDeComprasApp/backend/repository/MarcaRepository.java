@@ -10,4 +10,5 @@ public interface MarcaRepository extends CrudRepository<Marca, Long> {
 
 Marca findByNombre(String nombre);
 
+boolean existsByNombre(String nombre);
 }

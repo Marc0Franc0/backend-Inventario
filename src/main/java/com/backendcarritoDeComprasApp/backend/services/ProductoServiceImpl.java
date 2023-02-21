@@ -26,8 +26,8 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public String agregarProducto(ProductoDTO datosIngresados) {
 
-       Categoria categoria_producto = categoriaService.getCategoria(datosIngresados.getCategoria());
-       Marca marca_producto = marcaService.getMarca(datosIngresados.getMarca());
+        Categoria categoria_producto = categoriaService.getCategoria(datosIngresados.getCategoria());
+        Marca marca_producto = marcaService.getMarca(datosIngresados.getMarca());
         Producto datosNuevos = new Producto();
         datosNuevos.setImagen_url(datosIngresados.getImagen_url());
         datosNuevos.setNombre(datosIngresados.getNombre());
@@ -49,7 +49,6 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public String editarProducto(Long id, ProductoDTO datosIngresados) {
         Producto datosAlmacenados;
-       
         String rta;
 
         if (repository.existsById(id) == true) {
@@ -57,7 +56,12 @@ public class ProductoServiceImpl implements ProductoService {
             // mismo
 
             datosAlmacenados = repository.findById(id).get();
-
+            if (datosIngresados.getMarca().equals("")) {
+                datosIngresados.setMarca(datosAlmacenados.getMarca().getNombre());
+            } 
+            if (datosIngresados.getCategoria().equals("")) {
+                datosIngresados.setCategoria(datosAlmacenados.getCategoria().getNombre());
+            } 
             /*
              * Condicional para evaluar que no sean los mismos datos los que se van a
              * cambiar para no
@@ -68,38 +72,34 @@ public class ProductoServiceImpl implements ProductoService {
                 rta = "Producto no modificado";
 
             } else {
-              Producto datosModificados = new Producto();
+                Producto datosModificados = new Producto();
                 datosModificados.setId(id);
                 datosModificados.setNombre(datosIngresados.getNombre());
                 // datosModificados.setCategoria(datosIngresados.getCategoria());
                 datosModificados.setImagen_url(datosIngresados.getImagen_url());
                 datosModificados.setCantidad_en_stock(datosIngresados.getCantidad_en_stock());
                 datosModificados.setPrecio(datosIngresados.getPrecio());
-
-                //Se valida que los datos de categoria o marca que lleguen desde el cliente no sean vacios para setear
-                //De ser asi se les setea la misma categoría o marca
-                if(datosIngresados.getMarca().equals("")){
-              datosModificados.setMarca(datosAlmacenados.getMarca());
-                }else{
+                if (datosIngresados.getMarca().equals("")) {
+                    datosModificados.setMarca(datosAlmacenados.getMarca());
+                } else {
                     Marca marca_producto = marcaService.getMarca(datosIngresados.getMarca());
-
+    
                     datosModificados.setMarca(marca_producto);
                 }
-                  if(datosIngresados.getCategoria().equals("")){
-datosModificados.setCategoria(datosAlmacenados.getCategoria());
-                  }else{
-                    Categoria categoria_producto = categoriaService.getCategoria(datosIngresados.getCategoria()); 
+                if (datosIngresados.getCategoria().equals("")) {
+                    datosModificados.setCategoria(datosAlmacenados.getCategoria());
+                } else {
+                    Categoria categoria_producto = categoriaService.getCategoria(datosIngresados.getCategoria());
                     datosModificados.setCategoria(categoria_producto);
-                  }
-               
-                
+                }
+
                 // categoria_producto.addProducto(datosAlmacenados);
                 repository.save(datosModificados);
 
                 rta = "Producto modificado correctamente";
             }
         } else {
-            rta = "No se encontro un Producto anteriormente por lo que no se puede modficar";
+            rta = "No se encontro un Producto anteriormente por lo que no se puede modificar";
 
         }
 
@@ -110,13 +110,13 @@ datosModificados.setCategoria(datosAlmacenados.getCategoria());
     @Override
     public boolean compararProductos(Producto datosAlmacenados, ProductoDTO datosIngresados) {
         boolean rta = false;
-        if (datosAlmacenados.getImagen_url().equals(datosIngresados.getImagen_url())
-                && datosAlmacenados.getCantidad_en_stock() == datosIngresados.getCantidad_en_stock()
-                && datosAlmacenados.getPrecio() == datosIngresados.getPrecio()
-                // && datosAlmacenados.getCategoria().equals(datosIngresados.getCategoria())
-                && datosAlmacenados.getNombre().equals(datosIngresados.getNombre())
-                && datosAlmacenados.getCategoria().equals(datosIngresados.getCategoria())
-                && datosAlmacenados.getMarca().equals(datosIngresados.getMarca()))
+        if (datosAlmacenados.getNombre().equals(datosIngresados.getNombre())
+        && datosAlmacenados.getImagen_url().equals(datosIngresados.getImagen_url())
+&& datosAlmacenados.getPrecio()==datosIngresados.getPrecio()
+&& datosAlmacenados.getCantidad_en_stock() == datosIngresados.getPrecio()
+&& datosAlmacenados.getMarca().getNombre().equals(datosIngresados.getMarca())
+&& datosAlmacenados.getCategoria().getNombre().equals(datosIngresados.getCategoria())
+        )
 
         {
             rta = true;
@@ -139,5 +139,11 @@ datosModificados.setCategoria(datosAlmacenados.getCategoria());
             rta = "El producto a eliminar no existe";
         }
         return rta;
+    }
+
+    @Override
+    public boolean existByNombre(String nombre) {
+        // TODO Auto-generated method stub
+        return repository.existsByNombre(nombre);
     }
 }

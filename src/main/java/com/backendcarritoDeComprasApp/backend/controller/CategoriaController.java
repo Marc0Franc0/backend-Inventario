@@ -18,7 +18,7 @@ import com.backendcarritoDeComprasApp.backend.model.Categoria;
 import com.backendcarritoDeComprasApp.backend.services.CategoriaService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200","https://frontend-inventarioapp.netlify.app/"})
+@CrossOrigin(origins = { "http://localhost:4200", "https://frontend-inventarioapp.netlify.app/" })
 @RequestMapping("api/categorias")
 public class CategoriaController {
     @Autowired
@@ -33,16 +33,27 @@ public class CategoriaController {
 
     @GetMapping("/obtenercategoria")
     public ResponseEntity<Categoria> obtenerCategoria(@RequestParam String name) {
-       Categoria categoria = categoriaService.getCategoria(name);
+        Categoria categoria = categoriaService.getCategoria(name);
 
         return new ResponseEntity<Categoria>(categoria, HttpStatus.OK);
     }
 
     @PostMapping("/agregarnueva")
     public ResponseEntity<String> agregarProducto(@RequestBody Categoria datosIngresados) {
+        ResponseEntity<String> returnMethod = null;
 
-        categoriaService.agregarCategoria(datosIngresados);
-        return new ResponseEntity<>("Categoría agregada correctamente", HttpStatus.OK);
+        if (categoriaService.existByNombre(datosIngresados.getNombre())) {
+
+            returnMethod = new ResponseEntity<>("Hay una categoría existente con ese nombre",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        } else if (datosIngresados.getNombre().equals("")) {
+            returnMethod = new ResponseEntity<>("Nombre de la categoría vacío", HttpStatus.BAD_REQUEST);
+        } else {
+            categoriaService.agregarCategoria(datosIngresados);
+            returnMethod = new ResponseEntity<>("Categoría agregada correctamente", HttpStatus.CREATED);
+
+        }
+        return returnMethod;
     }
 
     @PutMapping("/editarexistente/{id}")
@@ -54,18 +65,18 @@ public class CategoriaController {
 
         switch (rta) {
 
-            case "Categoría no modificado": {
-                returnMethod = new ResponseEntity<>(rta, HttpStatus.BAD_REQUEST);
-                break;
+            case "Categoría no modificada": {
+                return returnMethod = new ResponseEntity<>(rta, HttpStatus.BAD_REQUEST);
+
             }
             case "Categoría modificada correctamente": {
-                returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
-                break;
+                return returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
+
             }
             case "No se encontro una categoría anteriormente por lo que no se puede modficar": {
 
-                returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
-                break;
+                return returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
+
             }
         }
 
@@ -94,11 +105,4 @@ public class CategoriaController {
         return returnMethod;
     }
 
-  /*   @PostMapping("/{id}/{idproducto}")
-    public ResponseEntity<String> agregarProductoACategoria(@RequestParam String nombrecategoria, @PathVariable Long idproducto) {
-
-
-        return new ResponseEntity<String>(categoriaService.agregarProductoACategoria(nombrecategoria, idproducto), HttpStatus.OK);
-
-    } */
 }

@@ -1,7 +1,6 @@
 package com.backendcarritoDeComprasApp.backend.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +18,13 @@ import com.backendcarritoDeComprasApp.backend.model.Marca;
 import com.backendcarritoDeComprasApp.backend.services.MarcaService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200","https://frontend-inventarioapp.netlify.app/"})
+@CrossOrigin(origins = { "http://localhost:4200", "https://frontend-inventarioapp.netlify.app/" })
 @RequestMapping("api/marcas")
 public class MarcaController {
-   
+
     @Autowired
     MarcaService marcaService;
-    
+
     @GetMapping("/obtenertodas")
     public ResponseEntity<List<Marca>> obtenerTodas() {
         List<Marca> listaCategorias = marcaService.getAllMarcas();
@@ -40,11 +39,23 @@ public class MarcaController {
         return new ResponseEntity<Marca>(categoria, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/agregarnueva",consumes = {"application/json"})
+    @PostMapping(value = "/agregarnueva", consumes = { "application/json" })
     public ResponseEntity<String> agregarMarca(@RequestBody Marca datosIngresados) {
+        ResponseEntity<String> returnMethod = null;
 
-        marcaService.agregarMarca(datosIngresados);
-        return new ResponseEntity<>("Marca agregada correctamente", HttpStatus.OK);
+        if (marcaService.existByNombre(datosIngresados.getNombre())) {
+
+            returnMethod = new ResponseEntity<>("Hay una marca existente con ese nombre",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        } else if (datosIngresados.getNombre().equals("")) {
+            returnMethod = new ResponseEntity<>("Nombre de la marca vacío",
+                    HttpStatus.BAD_REQUEST);
+
+        } else {
+            marcaService.agregarMarca(datosIngresados);
+            returnMethod = new ResponseEntity<>("Marca agregada correctamente", HttpStatus.OK);
+        }
+        return returnMethod;
     }
 
     @PutMapping("/editarexistente/{id}")
@@ -57,17 +68,17 @@ public class MarcaController {
         switch (rta) {
 
             case "Marca no modificada": {
-                returnMethod = new ResponseEntity<>(rta, HttpStatus.BAD_REQUEST);
-                break;
+                return returnMethod = new ResponseEntity<>(rta, HttpStatus.BAD_REQUEST);
+
             }
             case "Marca modificada correctamente": {
-                returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
-                break;
+                return returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
+
             }
             case "No se encontro una marca anteriormente por lo que no se puede modficar": {
 
-                returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
-                break;
+                return returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
+
             }
         }
 
@@ -83,14 +94,15 @@ public class MarcaController {
 
         switch (rta) {
             case "Marca elminada correctamente": {
-                returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
-                break;
+                return returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
+
             }
             case "La marca a eliminar no existe": {
 
-                returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
-                break;
+                return returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
+
             }
+
         }
 
         return returnMethod;

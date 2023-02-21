@@ -14,6 +14,8 @@ public interface CategoriaService {
 
     public String eliminarCategoria(Long id);
 
+    public boolean existByNombre(String nombre);
+
  /*    public  String agregarProductoACategoria(String nombrecategoria, Long idproducto); */
 
     public Categoria getCategoria(String name);

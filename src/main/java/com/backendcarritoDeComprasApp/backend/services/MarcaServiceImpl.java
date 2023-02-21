@@ -90,4 +90,11 @@ repository.deleteById(id);
     
         return  repository.findByNombre(name);
     }
+
+    @Override
+    public boolean existByNombre(String nombre) {
+        
+        return repository.existsByNombre(nombre);
+    }
+    
 }

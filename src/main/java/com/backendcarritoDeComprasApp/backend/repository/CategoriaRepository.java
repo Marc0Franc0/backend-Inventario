@@ -7,4 +7,5 @@ import com.backendcarritoDeComprasApp.backend.model.Categoria;
 @Repository
 public  interface CategoriaRepository  extends CrudRepository<Categoria,Long>{
    Categoria findByNombre(String name);
+   boolean existsByNombre(String nombre);
 }
