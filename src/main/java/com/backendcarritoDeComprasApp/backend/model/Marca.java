@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,7 +29,7 @@ public class Marca {
   @NonNull
   String nombre;
 
-  @NonNull
+  @NotNull
   //@JsonManagedReference
   @OneToMany(mappedBy  =  "marca" , cascade  = {CascadeType.ALL})
   private List<Producto> productos;

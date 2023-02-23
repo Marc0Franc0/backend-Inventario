@@ -25,111 +25,84 @@ public class ProductoController {
 
     @Autowired
     ProductoService productoService;
-
+    
+ private static String mensaje = "Ocurrió un error en el servidor";
     /*
      * Se obtiene una lista de todos los productos
      */
-    @GetMapping("/")
-    public  HttpStatus test() {
-
-      return HttpStatus.OK;
-    }
+   
 @GetMapping("/obtenertodos")
-public ResponseEntity<Collection<Producto>> getAllCarritos() {
-
-  return new ResponseEntity<>(productoService.getAllProducts(), HttpStatus.OK);
+public ResponseEntity<?> getAllCarritos() {
+Collection<Producto> listaProductos = productoService.getAllProducts();
+if (listaProductos.size() != 0) {
+  return ResponseEntity.status(HttpStatus.OK).body(listaProductos);
+} else {
+  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje+": Lista vacía");
+}
+  
 }
 
-    /*
-     * Permite agregar un nuevo producto
-     * Parametros:
-     {
-     "id": 0,
-      "nombre": "Nombre producto",
-     "imagen_url": "imagen_url",
-      "stock": true,
-      "precio": 0
-      }
-     */
     @PostMapping("/agregarnuevo")
     public ResponseEntity<String> agregarProducto(@RequestBody ProductoDTO datosIngresados) {
       
    
-      String rta;
     
       if(productoService.existByNombre(datosIngresados.getNombre())){
       // ResponseRta responserta = new ResponseRta("ERROR", "Ya existe un producto con ese nombre");
-      rta = "Ya existe un producto con ese nombre";
-      return new  ResponseEntity<>(rta,HttpStatus.BAD_REQUEST);
+      mensaje = "Hay un producto existente con ese nombre";
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensaje);
 
       }else if(datosIngresados.getNombre().equals("")){
        // ResponseRta responserta = new ResponseRta("ERROR", "El nombre del producto no contiene un valor");  
-       rta = "El nombre del producto no contiene un valor";
-        return new  ResponseEntity<>(rta,HttpStatus.BAD_REQUEST);
+       mensaje= "Nombre del producto vacío";
+       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensaje);
       }else{
 
-         rta=   productoService.agregarProducto(datosIngresados); 
+        productoService.agregarProducto(datosIngresados); 
          //ResponseRta responserta = new ResponseRta("OK", "Producto creado correctamente");  
-         rta = "Producto creado correctamente";
-         return new  ResponseEntity<>(rta,HttpStatus.CREATED);
-
+         mensaje = "Producto creado correctamente";
+         return ResponseEntity.status(HttpStatus.CREATED).body(mensaje);
   
     }
   }
 
-    /*
-     * Permite modificar un producto existente
-     * Parametros: ademas de los siguientes tambien se necesita de una número de ir el cual
-     * se pasa por el path al final del mismo
-     {
-     "id": 0,
-      "nombre": "Nombre producto",
-     "imagen_url": "imagen_url",
-      "stock": true,
-      "precio": 0
-      }
-     */
+  
     @PutMapping("/editarexistente/{id}")
     
     public ResponseEntity<String> editarProducto(@RequestBody ProductoDTO productoCargado, @PathVariable Long id) {
  
-ResponseEntity<String> returnMethod= null;
-
       String rta=   productoService.editarProducto(id,productoCargado);
 
       switch(rta){
 
-        case "Producto no modificado":{ 
-           returnMethod = new ResponseEntity<>(rta,HttpStatus.BAD_REQUEST);
-           break;
-           }
-        case "Producto modificado correctamente" : { returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
-          break;}
-        case "No se encontro un Producto anteriormente por lo que no se puede modficar" : {
+        case "Producto modificado correctamente" : { 
+          return ResponseEntity.status(HttpStatus.OK).body(rta);
+         
+        }
+        default  : {
 
-           returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
-          break;
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje + ":" + rta);
+      
         }
       }
 
-        return returnMethod;
+        
     }
     @DeleteMapping("/eliminarproducto/{id}")
     public ResponseEntity<String> eliminarProducto(@PathVariable Long id) {
- 
-        ResponseEntity<String> returnMethod= null;
-        
+
               String rta=   productoService.eliminarProducto(id);
         
               switch(rta){
-                case "Producto elminado correctamente" : {returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);break;}
-                case "El producto a eliminar no existe" : {
+                case "Producto elminado correctamente" : {
+                  return ResponseEntity.status(HttpStatus.OK).body(rta);
+                }
+                default  : {
         
-                    returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
-                    break;
+                  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje + ": " + rta);
                 }
               }
         
-                return returnMethod;
+              
             }
 }

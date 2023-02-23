@@ -24,85 +24,83 @@ public class CategoriaController {
     @Autowired
     CategoriaService categoriaService;
 
+    private static String mensaje = "Ocurrió un error en el servidor";
+
     @GetMapping("/obtenertodas")
-    public ResponseEntity<List<Categoria>> obtenerTodos() {
+    public ResponseEntity<?> obtenerTodas() {
         List<Categoria> listaCategorias = categoriaService.getAllCategorias();
 
-        return new ResponseEntity<>(listaCategorias, HttpStatus.OK);
+        if (listaCategorias.size() != 0) {
+            return ResponseEntity.status(HttpStatus.OK).body(listaCategorias);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje+": Lista vacía");
+        }
+
     }
 
     @GetMapping("/obtenercategoria")
-    public ResponseEntity<Categoria> obtenerCategoria(@RequestParam String name) {
+    public ResponseEntity<?> obtenerCategoria(@RequestParam String name) {
         Categoria categoria = categoriaService.getCategoria(name);
+        if (!categoria.toString().equals("")) {
+            return ResponseEntity.status(HttpStatus.OK).body(categoria);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
+        }
 
-        return new ResponseEntity<Categoria>(categoria, HttpStatus.OK);
     }
 
     @PostMapping("/agregarnueva")
-    public ResponseEntity<String> agregarProducto(@RequestBody Categoria datosIngresados) {
-        ResponseEntity<String> returnMethod = null;
+    public ResponseEntity<String> agregarCategoria(@RequestBody Categoria datosIngresados) {
 
         if (categoriaService.existByNombre(datosIngresados.getNombre())) {
+            mensaje = "Hay una categoría existente con ese nombre";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensaje);
 
-            returnMethod = new ResponseEntity<>("Hay una categoría existente con ese nombre",
-                    HttpStatus.INTERNAL_SERVER_ERROR);
         } else if (datosIngresados.getNombre().equals("")) {
-            returnMethod = new ResponseEntity<>("Nombre de la categoría vacío", HttpStatus.BAD_REQUEST);
+            mensaje = "Nombre de la categoría vacío";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensaje);
         } else {
-            categoriaService.agregarCategoria(datosIngresados);
-            returnMethod = new ResponseEntity<>("Categoría agregada correctamente", HttpStatus.CREATED);
 
+            categoriaService.agregarCategoria(datosIngresados);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Categoría agregada correctamente");
         }
-        return returnMethod;
+
     }
 
     @PutMapping("/editarexistente/{id}")
-    public ResponseEntity<String> editarProducto(@RequestBody Categoria datosIngresados, @PathVariable Long id) {
-
-        ResponseEntity<String> returnMethod = null;
+    public ResponseEntity<String> editarCategoria(@RequestBody Categoria datosIngresados, @PathVariable Long id) {
 
         String rta = categoriaService.editarCategoria(id, datosIngresados);
 
         switch (rta) {
 
-            case "Categoría no modificada": {
-                return returnMethod = new ResponseEntity<>(rta, HttpStatus.BAD_REQUEST);
-
-            }
             case "Categoría modificada correctamente": {
-                return returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
-
+                return ResponseEntity.status(HttpStatus.OK).body(rta);
             }
-            case "No se encontro una categoría anteriormente por lo que no se puede modficar": {
-
-                return returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
-
+            default: {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje + ":" + rta);
             }
         }
 
-        return returnMethod;
     }
 
     @DeleteMapping("/eliminarcategoria/{id}")
     public ResponseEntity<String> eliminarCategoria(@PathVariable Long id) {
 
-        ResponseEntity<String> returnMethod = null;
-
         String rta = categoriaService.eliminarCategoria(id);
 
         switch (rta) {
             case "Categoría elminada correctamente": {
-                returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
-                break;
-            }
-            case "La categoría a eliminar no existe": {
+                return ResponseEntity.status(HttpStatus.OK).body(rta);
 
-                returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
-                break;
             }
+            default: {
+
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje + ": " + rta);
+            }
+
         }
 
-        return returnMethod;
     }
 
 }

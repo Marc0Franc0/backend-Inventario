@@ -24,88 +24,91 @@ public class MarcaController {
 
     @Autowired
     MarcaService marcaService;
+    private static String mensaje = "Ocurrió un error en el servidor";
 
     @GetMapping("/obtenertodas")
-    public ResponseEntity<List<Marca>> obtenerTodas() {
+    public ResponseEntity<?> obtenerTodas() {
         List<Marca> listaCategorias = marcaService.getAllMarcas();
+        if (listaCategorias.size() != 0) {
+            return ResponseEntity.status(HttpStatus.OK).body(listaCategorias);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje + ": Lista vacía");
+        }
 
-        return new ResponseEntity<>(listaCategorias, HttpStatus.OK);
     }
 
-    @GetMapping("/obtenercategoria")
-    public ResponseEntity<Marca> obtenerMarca(@RequestParam String name) {
-        Marca categoria = marcaService.getMarca(name);
+    @GetMapping("/obtenermarca")
+    public ResponseEntity<?> obtenerMarca(@RequestParam String name) {
+        Marca marca = marcaService.getMarca(name);
+if(!marca.toString().equals("")){
+        return  ResponseEntity.status(HttpStatus.OK).body(marca);
+    }
+    else{
 
-        return new ResponseEntity<Marca>(categoria, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
     }
 
-    @PostMapping(value = "/agregarnueva", consumes = { "application/json" })
+    @PostMapping(value = "/agregarnueva")
     public ResponseEntity<String> agregarMarca(@RequestBody Marca datosIngresados) {
-        ResponseEntity<String> returnMethod = null;
-
+      
         if (marcaService.existByNombre(datosIngresados.getNombre())) {
 
-            returnMethod = new ResponseEntity<>("Hay una marca existente con ese nombre",
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+            mensaje="Hay una marca existente con ese nombre";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensaje);
         } else if (datosIngresados.getNombre().equals("")) {
-            returnMethod = new ResponseEntity<>("Nombre de la marca vacío",
-                    HttpStatus.BAD_REQUEST);
+            mensaje="Nombre de la marca vacío";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensaje);
 
         } else {
+            mensaje="Marca agregada correctamente";
             marcaService.agregarMarca(datosIngresados);
-            returnMethod = new ResponseEntity<>("Marca agregada correctamente", HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Categoría agregada correctamente");
         }
-        return returnMethod;
+  
     }
 
     @PutMapping("/editarexistente/{id}")
     public ResponseEntity<String> editarMarca(@RequestBody Marca datosIngresados, @PathVariable Long id) {
 
-        ResponseEntity<String> returnMethod = null;
+       
 
         String rta = marcaService.editarMarca(id, datosIngresados);
 
         switch (rta) {
 
-            case "Marca no modificada": {
-                return returnMethod = new ResponseEntity<>(rta, HttpStatus.BAD_REQUEST);
-
-            }
+         
             case "Marca modificada correctamente": {
-                return returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
+                return ResponseEntity.status(HttpStatus.OK).body(rta);
 
             }
-            case "No se encontro una marca anteriormente por lo que no se puede modficar": {
+             default: {
 
-                return returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje + ":" + rta);
 
             }
         }
 
-        return returnMethod;
     }
 
-    @DeleteMapping("/eliminarcategoria/{id}")
+    @DeleteMapping("/eliminarmarca/{id}")
     public ResponseEntity<String> eliminarMarca(@PathVariable Long id) {
 
-        ResponseEntity<String> returnMethod = null;
 
         String rta = marcaService.eliminarMarca(id);
 
         switch (rta) {
             case "Marca elminada correctamente": {
-                return returnMethod = new ResponseEntity<>(rta, HttpStatus.OK);
+                return ResponseEntity.status(HttpStatus.OK).body(rta);
 
             }
-            case "La marca a eliminar no existe": {
+            default : {
 
-                return returnMethod = new ResponseEntity<>(rta, HttpStatus.NOT_FOUND);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje + ": " + rta);
 
             }
 
         }
 
-        return returnMethod;
     }
 
 }
