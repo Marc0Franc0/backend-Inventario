@@ -39,6 +39,9 @@ public class Producto {
   @NotBlank
   private double precio;
 
+  @NotBlank
+  private String detalles;
+
   @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "fk_categoria", nullable = true, updatable = true)

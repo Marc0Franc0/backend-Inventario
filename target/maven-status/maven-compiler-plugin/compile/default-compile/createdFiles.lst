@@ -10,8 +10,6 @@ com\backendcarritoDeComprasApp\backend\model\Marca.class
 com\backendcarritoDeComprasApp\backend\controller\MarcaController.class
 com\backendcarritoDeComprasApp\backend\services\CategoriaService.class
 com\backendcarritoDeComprasApp\backend\model\Producto.class
-com\backendcarritoDeComprasApp\backend\dto\MarcaDTO.class
-com\backendcarritoDeComprasApp\backend\dto\CategoriaDTO.class
 com\backendcarritoDeComprasApp\backend\dto\ProductoDTO.class
 com\backendcarritoDeComprasApp\backend\services\CategoriaServiceImpl.class
 com\backendcarritoDeComprasApp\backend\config\WebConfiguration.class

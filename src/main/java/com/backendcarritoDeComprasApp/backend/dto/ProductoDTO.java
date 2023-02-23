@@ -25,5 +25,6 @@ public class ProductoDTO {
   @NotBlank
   private  String marca;
 
-    
+  @NotBlank
+  private String detalles;
 }

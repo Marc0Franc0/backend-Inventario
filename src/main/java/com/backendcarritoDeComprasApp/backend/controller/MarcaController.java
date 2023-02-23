@@ -47,6 +47,7 @@ if(!marca.toString().equals("")){
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
     }
+    }
 
     @PostMapping(value = "/agregarnueva")
     public ResponseEntity<String> agregarMarca(@RequestBody Marca datosIngresados) {
