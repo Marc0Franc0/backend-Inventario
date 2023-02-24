@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,20 +25,20 @@ public class Producto {
   @Column(name = "id_producto",unique = false)
   private Long id;
 
-  @NotBlank
+  
   @Column(length = 29)
   private String nombre;
 
-  @NotBlank
+
   private String imagen_url;
 
-  @NotBlank
+
   private double cantidad_en_stock;
 
-  @NotBlank
+  
   private double precio;
 
-  @NotBlank
+  
   private String detalles;
 
   @JsonIgnore

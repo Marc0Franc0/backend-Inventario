@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +26,7 @@ public class Categoria {
     @Column(length = 50)
     String nombre;
 
-    @NotNull
+  
     @OneToMany(mappedBy  =  "categoria" , cascade  = {CascadeType.ALL})
     private List<Producto> productos;
 
